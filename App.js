@@ -7,12 +7,41 @@ import { useState } from 'react';
 export default function App() {
 
   // Declaracion de variables 
-  const[id, setid]                  = useState('');
-  const[nombre, setnombre]          = useState('');
-  const[asigantura, setasigantura]  = useState('');
-  const[nota1, setnota1]            = useState(0);
-  const[nota2, setnota2]            = useState(0);
-  const[nota3, setnota3]            = useState(0);
+  const[id, setid]                    = useState('');
+  const[nombre, setnombre]            = useState('');
+  const[asigantura, setasigantura]    = useState('');
+  const[nota1, setnota1]              = useState('');
+  const[nota2, setnota2]              = useState('');
+  const[nota3, setnota3]              = useState('');
+  const[resultado, setresultado]      = useState(0);
+  const[mensaje, setmensaje]          = useState('');
+  const[esValido, setesValido]        = useState(false);
+  const[obs, setobs]                  = useState('');
+  const[esObsValida, setesObsValida]  = useState(false);
+
+  // Declaracion de metoos 
+  let result = 0 
+  let calcular = ()=>{
+    if(nota1 != "" && nota2 != "" && nota3 != "" ){
+      result = parseFloat(nota1)*0.3 + parseFloat(nota2)*0.35+ parseFloat(nota3)*0.35
+      setesValido(true)
+      setmensaje("Calcula realizado completamente")
+      if(result>3){
+        setesObsValida(false)
+        setobs("OBSERVACION => Aprueba")
+        }else if(result<=2.94 && result >= 2){
+          setesObsValida(true)
+          setobs("OBSERVACION => Habilita")
+          }else if(result< 2){
+            setesObsValida(true)
+            setobs("OBSERVACION => Reprueba")
+          }
+    }else{
+      setesValido(false)
+      setmensaje("Debe ingresar las 3 notas")
+    }
+    setresultado(result)
+  }
 
   return (
     <View style={[styles.container,{flex:1}]}>
@@ -77,44 +106,43 @@ export default function App() {
       </TextInput>
 
       <Text style ={{color:'black', fontWeight:'bold'}}>Resultado</Text>
-      <Text style ={{color:'black', fontWeight:'bold', borderRadius:10, padding:10, width:100, borderColor:'black', textAlign:'center'}}>{3.5}</Text>
+      <Text style ={{color:'black', fontWeight:'bold', borderRadius:10, padding:10, width:100, borderColor:'black', textAlign:'center'}}>{resultado.toFixed(2)}</Text>
 
+      <View>
+        <Text style={{color:esObsValida?"red":"green"}}>{obs}</Text>
+      </View>
       <View style={{flexDirection:'row', marginTop:20}}>
         <TouchableOpacity style={styles.button}
-        onPress = {()=>calcular("+")}
+        onPress = {()=>calcular()}
         >
           <Text style={styles.textTouchable}>Calcular / Guardar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}
-        onPress = {()=>calcular("-")}
-        >
-          <Text style={styles.textTouchable}>Limpiar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button}
-        onPress = {()=>calcular("*")}
+        // onPress = {()=>calcular()}
         >
           <Text style={styles.textTouchable}>Buscar</Text>
         </TouchableOpacity>
-      </View>
 
-        {/* <TouchableOpacity style={styles.button}
+        <TouchableOpacity style={styles.button}
         onPress = {()=>{
-          setValor1('')
-          setValor2('')
-          setResultado(0)
-          setMensaje("")
+          setnota1('')
+          setnota2('')
+          setnota3('')
+          setresultado(0)
+          setmensaje("")
         }}
         >
             <Text style={styles.textTouchable}>Limpiar</Text>
-        </TouchableOpacity> */}
-      {/* <View>
+        </TouchableOpacity>
+      </View>
+
+      <View>
       <View>
         <Text style={{color:esValido?"green":"red"}}>{mensaje}</Text>
       </View>
 
-      </View> */}
+      </View>
 
     </View>
 
