@@ -23,30 +23,39 @@ export default function App() {
   let result = 0 
   let calcular = ()=>{
     if(nota1 != "" && nota2 != "" && nota3 != "" ){
-      result = parseFloat(nota1)*0.3 + parseFloat(nota2)*0.35+ parseFloat(nota3)*0.35
-      setesValido(true)
-      setmensaje("Calcula realizado completamente")
-      if(result>3){
-        setesObsValida(false)
-        setobs("OBSERVACION => Aprueba")
-        }else if(result<=2.94 && result >= 2){
-          setesObsValida(true)
-          setobs("OBSERVACION => Habilita")
-          }else if(result< 2){
+      let nota1P = parseFloat(nota1)
+      let nota2P = parseFloat(nota2)
+      let nota3P = parseFloat(nota3)
+      if(nota1P <= 5 && nota2P <= 5 && nota3P <= 5 ){
+        result = nota1P*0.3 + nota2P*0.35+ nota3P*0.35
+        setesValido(true)
+        setmensaje("Calcula realizado completamente")
+        if(result>3){
+          setesObsValida(false)
+          setobs("OBSERVACION => Aprueba")
+          }else if(result<=2.94 && result >= 2){
             setesObsValida(true)
-            setobs("OBSERVACION => Reprueba")
-          }
-    }else{
-      setesValido(false)
-      setmensaje("Debe ingresar las 3 notas")
-    }
+            setobs("OBSERVACION => Habilita")
+            }else if(result< 2){
+              setesObsValida(true)
+              setobs("OBSERVACION => Reprueba")
+            }
+          }else{
+            setesObsValida(false)
+            setobs("")
+            setmensaje("las notas no deben ser mayores a 5.0")
+        }
+      }else{
+        setesValido(false)
+        setmensaje("Debe ingresar las 3 notas")
+      }
     setresultado(result)
   }
 
   return (
     <View style={[styles.container,{flex:1}]}>
 
-    <View style={[styles.views,styles.container,{flex:5, backgroundColor:'yellowgreen', }]}>
+    <View style={[styles.views,styles.container,{flex:5, backgroundColor:'gray', }]}>
       <Text
       style ={{color:'black', fontWeight:'bold',borderRadius:10,
         padding:10,
@@ -145,9 +154,6 @@ export default function App() {
       </View>
 
     </View>
-
-  
-
   </View>
 
   );
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
     
   },
   inputs:{
-    borderRadius:50,
+    borderRadius:10,
     margin:10,
     padding:5,
     width:150,
