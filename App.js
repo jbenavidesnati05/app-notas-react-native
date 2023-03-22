@@ -21,15 +21,19 @@ export default function App() {
 
   // Declaracion de metoos 
   let result = 0 
+  let alumnos = []
   let calcular = ()=>{
     if(nota1 != "" && nota2 != "" && nota3 != "" ){
       let nota1P = parseFloat(nota1)
       let nota2P = parseFloat(nota2)
       let nota3P = parseFloat(nota3)
       if(nota1P <= 5 && nota2P <= 5 && nota3P <= 5 ){
+        let alumno = {nota1:nota1P,nota2:nota2P,nota3:nota3P}
+        alumnos.push(alumno)  
+        console.log(alumnos);
         result = nota1P*0.3 + nota2P*0.35+ nota3P*0.35
         setesValido(true)
-        setmensaje("Calcula realizado completamente")
+        setmensaje("Calculo realizado completamente")
         if(result>3){
           setesObsValida(false)
           setobs("OBSERVACION => Aprueba")
@@ -51,6 +55,7 @@ export default function App() {
       }
     setresultado(result)
   }
+  
 
   return (
     <View style={[styles.container,{flex:1}]}>
