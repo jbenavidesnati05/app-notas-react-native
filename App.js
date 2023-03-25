@@ -4,6 +4,9 @@ import { StyleSheet, Text, View, Image, TextInput, Button, TouchableOpacity  } f
 import { useState } from 'react';
 
 
+// Declaracion de metoos 
+let alumnos = []
+
 export default function App() {
 
   // Declaracion de variables 
@@ -19,44 +22,61 @@ export default function App() {
   const[obs, setobs]                  = useState('');
   const[esObsValida, setesObsValida]  = useState(false);
 
-  // Declaracion de metoos 
   let result = 0 
-  let alumnos = []
+  
   let calcular = ()=>{
-    if(nota1 != "" && nota2 != "" && nota3 != "" ){
+    if(id !="", nombre !="", asigantura !="", nota1 != "" && nota2 != "" && nota3 != ""  ){
       let nota1P = parseFloat(nota1)
       let nota2P = parseFloat(nota2)
       let nota3P = parseFloat(nota3)
       if(nota1P <= 5 && nota2P <= 5 && nota3P <= 5 ){
-        let alumno = {nota1:nota1P,nota2:nota2P,nota3:nota3P}
-        alumnos.push(alumno)  
-        console.log(alumnos);
+        // console.log(alumnos);
         result = nota1P*0.3 + nota2P*0.35+ nota3P*0.35
+        alumnos.push({id:id, nombre: nombre, asigantura: asigantura, nota1:nota1P,nota2:nota2P,nota3:nota3P,resultado:result, observacion:mensaje})  
         setesValido(true)
         setmensaje("Calculo realizado completamente")
         if(result>3){
           setesObsValida(false)
           setobs("OBSERVACION => Aprueba")
-          }else if(result<=2.94 && result >= 2){
-            setesObsValida(true)
-            setobs("OBSERVACION => Habilita")
-            }else if(result< 2){
-              setesObsValida(true)
-              setobs("OBSERVACION => Reprueba")
-            }
-          }else{
-            setesObsValida(false)
-            setobs("")
-            setmensaje("las notas no deben ser mayores a 5.0")
+        }else if(result<=2.94 && result >= 2){
+          setesObsValida(true)
+          setobs("OBSERVACION => Habilita")
+        }else if(result< 2){
+          setesObsValida(true)
+          setobs("OBSERVACION => Reprueba")
         }
+        console.log(alumnos);
       }else{
-        setesValido(false)
-        setmensaje("Debe ingresar las 3 notas")
+        setesObsValida(false)
+        setobs("")
+        setmensaje("las notas no deben ser mayores a 5.0")
       }
+    }else{
+      setesValido(false)
+      setmensaje("Debe ingresar las 3 notas")
+    }
     setresultado(result)
+    // console.log(alumnos);
+  }
+
+  let buscar = () =>{
+    let encontrado = alumnos.find(p => p.id == id)
+
+    if(encontrado){
+      setid(encontrado.id);
+      setnombre(encontrado.nombre),
+      setasigantura(encontrado.asigantura);
+      setnota1(encontrado.nota1);
+      setnota2(encontrado.nota2);
+      setnota3(encontrado.nota3);
+      setresultado(encontrado.resultado);
+      setobs(encontrado.obs);
+    }
+
   }
   
 
+  
   return (
     <View style={[styles.container,{flex:1}]}>
 
@@ -133,13 +153,17 @@ export default function App() {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}
-        // onPress = {()=>calcular()}
+        onPress = {()=>buscar()}
         >
           <Text style={styles.textTouchable}>Buscar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}
         onPress = {()=>{
+
+          setid('')
+          setnombre('')
+          setasigantura('')
           setnota1('')
           setnota2('')
           setnota3('')
