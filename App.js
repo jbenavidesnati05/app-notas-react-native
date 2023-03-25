@@ -29,12 +29,17 @@ export default function App() {
       let nota1P = parseFloat(nota1)
       let nota2P = parseFloat(nota2)
       let nota3P = parseFloat(nota3)
-      if(nota1P <= 5 && nota2P <= 5 && nota3P <= 5 ){
-        // console.log(alumnos);
+      if(nota1P <= 5 && nota2P <= 5 && nota3P <= 5 && nota1P >= 0 && nota2P >= 0 && nota3P >= 0 ){
         result = nota1P*0.3 + nota2P*0.35+ nota3P*0.35
-        alumnos.push({id:id, nombre: nombre, asigantura: asigantura, nota1:nota1P,nota2:nota2P,nota3:nota3P,resultado:result, observacion:mensaje})  
-        setesValido(true)
-        setmensaje("Calculo realizado completamente")
+
+        let buscado = alumnos.find(p => p.id ==id)
+        if(!buscado){
+          alumnos.push({id:id, nombre: nombre, asigantura: asigantura, nota1:nota1P,nota2:nota2P,nota3:nota3P,resultado:result, obs:obs})  
+          setesValido(true)
+          setmensaje("Calculo realizado completamente")
+        }else{
+          console.log("id ya existe");
+        }
         if(result>3){
           setesObsValida(false)
           setobs("OBSERVACION => Aprueba")
@@ -49,14 +54,13 @@ export default function App() {
       }else{
         setesObsValida(false)
         setobs("")
-        setmensaje("las notas no deben ser mayores a 5.0")
+        setmensaje("las notas no deben ser mayores a 5.0 ni menores que cero")
       }
     }else{
       setesValido(false)
       setmensaje("Debe ingresar las 3 notas")
     }
     setresultado(result)
-    // console.log(alumnos);
   }
 
   let buscar = () =>{
@@ -74,8 +78,6 @@ export default function App() {
     }
 
   }
-  
-
   
   return (
     <View style={[styles.container,{flex:1}]}>
@@ -141,7 +143,6 @@ export default function App() {
 
       <Text style ={{color:'black', fontWeight:'bold'}}>Resultado</Text>
       <Text style ={{color:'black', fontWeight:'bold', borderRadius:10, padding:10, width:100, borderColor:'black', textAlign:'center'}}>{resultado.toFixed(2)}</Text>
-
       <View>
         <Text style={{color:esObsValida?"red":"green"}}>{obs}</Text>
       </View>
